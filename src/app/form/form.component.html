@@ -1,1 +1,8 @@
-<p>form works!</p>
+{{model | json}}
+<form #mainForm="ngForm"></form>
+  <div class="form-group">
+    <label for="output">Required output</label>
+    <select class="form-control" id="output" required [(ngModel)]="model.output" name="output">
+      <option *ngFor="let out of outputs" [value]="out">{{out}}</option>
+    </select>
+  </div>

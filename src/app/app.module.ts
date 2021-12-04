@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { ResultsInfoComponent } from './results-info/results-info.component';
 import { MessagesComponent } from './messages/messages.component';
 import { FormComponent } from './form/form.component';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
 // and returns simulated server responses.
@@ -22,6 +23,7 @@ import { InMemoryDataService } from './in-memory-data.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     HttpClientModule,
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
