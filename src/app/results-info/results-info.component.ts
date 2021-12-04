@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Result } from '../result';
 import { MockserviceService } from '../mockservice.service';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-results-info',
@@ -14,7 +15,7 @@ export class ResultsInfoComponent implements OnInit {
   result: Result = {image_name:'', count:0, image:'' }; //mock inizialization
 
 
-  constructor(private mockService: MockserviceService) { }
+  constructor(private mockService: MockserviceService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.getResult();
