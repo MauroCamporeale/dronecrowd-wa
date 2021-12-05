@@ -1,8 +1,39 @@
-{{model | json}}
-<form #mainForm="ngForm"></form>
-  <div class="form-group">
-    <label for="output">Required output</label>
-    <select class="form-control" id="output" required [(ngModel)]="model.output" name="output">
-      <option *ngFor="let out of outputs" [value]="out">{{out}}</option>
-    </select>
+{{count | json}}
+<div [hidden]="submitted || predicted">
+  <form [formGroup]="predictForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="output">Output type</label>
+      <select class="form-control" id="output" formControlName="output">
+        <option *ngFor="let out of outputs" [value]="out">{{out}}</option>
+      </select>
+      <input class="form-control" type="file" formControlName="file" (change)="onImageChange($event)">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </form>
+</div>
+
+<div [hidden]="predicted || !submitted">
+  <h2>You submitted the following:</h2>
+  <div class="row">
+    <div class="col-xs-3">Output option</div>
+    <div class="col-xs-9">{{ predictForm.value.output }}</div>
   </div>
+  <div class="row">
+    <div class="col-xs-3">File</div>
+    <div class="col-xs-9">{{ predictForm.value.file }}</div>
+  </div>
+  <br>
+  <button class="btn btn-secondary" (click)="submitted=false">Edit</button>
+  <button class="btn btn-primary" (click)="apiRequest()">Predict</button>
+</div>
+
+<div [hidden]="!predicted">
+  <h2>{{"Api results" | uppercase}}</h2>
+
+  <div><span>image name: </span>{{result.image_name}}</div>
+  <div><span>people count: </span>{{result.count}}</div>
+  <div><span>image:</span></div>
+  <div><img src='{{result.image}}' alt="image" width="500" height="300"></div>
+</div>

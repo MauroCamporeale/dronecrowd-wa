@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Result } from './result';
-import { FAKERESULT } from './mock-result';
 import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -12,17 +11,36 @@ import { catchError, map, tap } from 'rxjs/operators';
 export class MockserviceService {
 
   private resultUrl = 'api/result';  // URL to web api
+  private baseUrl = 'http://localhost:8000/predictions/images';
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }
 
-  getResult(): Observable<Result>{
-    return this.http.get<Result>(this.resultUrl)
+  predict2(): Observable<Result>{
+    return this.http.get<Result>('http://localhost:8000/')
       .pipe(
         tap(_ => this.log('fetched result')),
         catchError(this.handleError<Result>('getResult', {image_name: 'fake_image', count: 49, image:''} ))
       );
+
+  }
+
+
+  predict(count: boolean, heatmap: boolean, file: string): Observable<Result> {
+
+    const httpOptions = {
+      params: new HttpParams()
+        .set('count',count)
+        .set('heatmap',heatmap)
+    };
+
+    console.log(file);
+
+    return this.http.post<Result>(this.baseUrl, "files = [('file': ('image.jpg'," + file + ", 'image/jpeg'))]", httpOptions).pipe(
+      tap((result: Result) => this.log(`submitted for prediction image=${result.image_name}`)),
+      catchError(this.handleError<Result>('preditct', {image_name: 'fake_image', count: 49, image:''}))
+    );
   }
 
   /**
