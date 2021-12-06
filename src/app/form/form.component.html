@@ -32,8 +32,23 @@
 <div [hidden]="!predicted">
   <h2>{{"Api results" | uppercase}}</h2>
 
-  <div><span>image name: </span>{{result.image_name}}</div>
+  <div><span>image name: </span>{{result.img_name}}</div>
   <div><span>people count: </span>{{result.count}}</div>
-  <div><span>image:</span></div>
-  <div><img src='{{result.image}}' alt="image" width="500" height="300"></div>
+  <div>
+    <mat-card class="image-card" [class.mat-elevation-z2]>
+      <mat-card-header>
+        <mat-card-title>Original Image</mat-card-title>
+        <mat-card-subtitle>that you've submitted</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image src='{{originalImage}}'>
+    </mat-card>
+
+    <mat-card class="heatmap-card" [class.mat-elevation-z2]>
+      <mat-card-header>
+        <mat-card-title>People heatmap</mat-card-title>
+        <mat-card-subtitle>predicted by our model</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image src='{{result.image}}' alt = "predicted people heatmap">
+    </mat-card>
+  </div>
 </div>

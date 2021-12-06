@@ -6,11 +6,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { FormComponent } from './form/form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-// // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-// // and returns simulated server responses.
-// // Remove it when a real server is ready to receive requests.
-// import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService } from './in-memory-data.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -24,12 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    // // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // // and returns simulated server responses.
-    // // Remove it when a real server is ready to receive requests.
-    // HttpClientInMemoryWebApiModule.forRoot(
-    //   InMemoryDataService, { dataEncapsulation: false }
-    // )
+    BrowserAnimationsModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

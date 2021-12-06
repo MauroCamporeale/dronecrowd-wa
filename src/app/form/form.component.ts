@@ -17,8 +17,11 @@ export class FormComponent implements OnInit {
   predicted = false;
   count = true;
   heatmap = true;
+  isImageLoading = false;
+  imageToShow: any;
+  originalImage: any;
 
-  binaryFile: string = '';
+  formData = new FormData();
 
   predictForm = new FormGroup ({
     output: new FormControl('', [Validators.required]),
@@ -29,7 +32,7 @@ export class FormComponent implements OnInit {
   outputs = ['only people count', 'only people heatmap',
             'both people count and heatmap'];
 
-  result: Result = {image_name:'', count:0, image:'' }; //mock inizialization
+  result: Result = {img_name:'', count:'0', image:'' }; //mock inizialization
 
   constructor(private router: Router,private mockService: MockserviceService, private messageService: MessageService) { }
 
@@ -42,67 +45,79 @@ export class FormComponent implements OnInit {
   apiRequest() {
     this.predicted = true;
     this.outputOptionSwitch();
-    this.getResult();
 
   }
 
   outputOptionSwitch(){
     if (this.predictForm.value.output == 'only people count'){
-      this.count= true;
-      this.heatmap= false;
+      this.mockService.predictOnlyCount(this.formData)
+        .subscribe(result => this.result = result);
     }
     else if(this.predictForm.value.output == 'only people heatmap'){
-      this.count= false;
-      this.heatmap= true;
+      this.isImageLoading = true;
+      this.result.count = 'People count not Requested'
+      this.mockService.predictOnlyCount(this.formData)
+        .subscribe(result => this.result.img_name = result.img_name);
+      this.mockService.predictOnlyHeatmap(this.formData)
+         .subscribe(
+            data => {
+              this.createImageFromBlob(data);
+              this.isImageLoading = false;
+            },
+            error => {
+              this.isImageLoading = false;
+              console.log(error);
+            });
     }
     else {
-      this.count= true;
-      this.heatmap= true;
-    }
-  }
-
-  getResult(): void {
-
-
-
-    console.log(this.predictForm.value);
-    this.mockService.predict(this.count, this.heatmap, this.binaryFile)
+      console.log(this.predictForm.value);
+      this.isImageLoading = true;
+      this.mockService.predictOnlyCount(this.formData)
         .subscribe(result => this.result = result);
-
-    //this.mockService.getResult()
-        //.subscribe(result => this.result = result);
+      this.mockService.predictOnlyHeatmap(this.formData)
+         .subscribe(
+            data => {
+              this.createImageFromBlob(data);
+              this.isImageLoading = false;
+            },
+            error => {
+              this.isImageLoading = false;
+              console.log(error);
+            });
+    }
   }
 
   onImageChange(e) {
     const reader = new FileReader();
 
     if(e.target.files && e.target.files.length) {
-      const [file] = e.target.files;
+      const file: File = e.target.files[0];
 
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.binaryFile = e.target.result.split('base64,')[1];
-      };
-      reader.readAsDataURL(file);
+      let reader = new FileReader();
+      reader.addEventListener("load", () => {
+        this.originalImage = reader.result;
+      }, false);
+
+      if (file) {
+        reader.readAsDataURL(file);
+     }
+
+      this.originalImage = file;
+      this.formData.append("file",file);
     }
   }
 
+  createImageFromBlob(image: Blob) {
+    console.log(typeof(image));
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+       this.imageToShow = reader.result;
+       this.result.image = this.imageToShow;
+    }, false);
 
-
-  // onImageChange(e) {
-  //   const reader = new FileReader();
-
-  //   if(e.target.files && e.target.files.length) {
-  //     const [file] = e.target.files;
-  //     reader.readAsDataURL(file);
-
-  //     reader.onload = () => {
-  //       this.imgFile = reader.result as string;
-  //       this.uploadForm.patchValue({
-  //         imgSrc: reader.result
-  //       });
-  //     }
-  //   }
-  // }
+    if (image) {
+       reader.readAsDataURL(image);
+    }
+ }
 
 }

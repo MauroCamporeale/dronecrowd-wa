@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Result } from './result';
 import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -17,29 +17,35 @@ export class MockserviceService {
     private http: HttpClient,
     private messageService: MessageService) { }
 
-  predict2(): Observable<Result>{
-    return this.http.get<Result>('http://localhost:8000/')
-      .pipe(
-        tap(_ => this.log('fetched result')),
-        catchError(this.handleError<Result>('getResult', {image_name: 'fake_image', count: 49, image:''} ))
-      );
-
-  }
-
-
-  predict(count: boolean, heatmap: boolean, file: string): Observable<Result> {
+  predictOnlyCount(body: FormData): Observable<Result> {
 
     const httpOptions = {
       params: new HttpParams()
-        .set('count',count)
-        .set('heatmap',heatmap)
+        .set('count',true)
+        .set('heatmap',false)
     };
 
-    console.log(file);
+    console.log(body);
 
-    return this.http.post<Result>(this.baseUrl, "files = [('file': ('image.jpg'," + file + ", 'image/jpeg'))]", httpOptions).pipe(
-      tap((result: Result) => this.log(`submitted for prediction image=${result.image_name}`)),
-      catchError(this.handleError<Result>('preditct', {image_name: 'fake_image', count: 49, image:''}))
+    return this.http.post<Result>(this.baseUrl, body, httpOptions).pipe(
+      tap((result: Result) => this.log(`submitted for prediction image=${result.img_name}`)),
+      catchError(this.handleError<Result>('preditct', {img_name: 'fake_image', count: '49', image:''}))
+    );
+  }
+
+  predictOnlyHeatmap(body: FormData): Observable<Blob> {
+
+    const httpOptions = {
+      params: new HttpParams()
+        .set('count',false)
+        .set('heatmap',true),
+      responseType: 'blob' as 'json'
+    };
+
+    console.log(body);
+
+    return this.http.post<Blob>(this.baseUrl, body, httpOptions).pipe(
+      catchError(this.handleError<Blob>())
     );
   }
 
@@ -71,3 +77,4 @@ export class MockserviceService {
 
 
 }
+
