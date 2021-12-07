@@ -10,14 +10,14 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class MockserviceService {
 
-  private resultUrl = 'api/result';  // URL to web api
-  private baseUrl = 'http://localhost:8000/predictions/images';
+  private baseUrl = 'http://localhost:8000/predictions';
+  private Url;
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }
 
-  predictOnlyCount(body: FormData): Observable<Result> {
+  predictImageCount(body: FormData): Observable<Result> {
 
     const httpOptions = {
       params: new HttpParams()
@@ -25,27 +25,56 @@ export class MockserviceService {
         .set('heatmap',false)
     };
 
+    this.Url = this.baseUrl + '/images'
+
     console.log(body);
 
-    return this.http.post<Result>(this.baseUrl, body, httpOptions).pipe(
+    return this.http.post<Result>(this.Url, body, httpOptions).pipe(
       tap((result: Result) => this.log(`submitted for prediction image=${result.img_name}`)),
       catchError(this.handleError<Result>('preditct', {img_name: 'fake_image', count: '49', image:''}))
     );
   }
 
-  predictOnlyHeatmap(body: FormData): Observable<Blob> {
+  predictVideoCount(body: FormData): Observable<Result[]> {
 
     const httpOptions = {
       params: new HttpParams()
-        .set('count',false)
-        .set('heatmap',true),
-      responseType: 'blob' as 'json'
+        .set('count',true)
+        .set('heatmap',false)
     };
+
+    this.Url = this.baseUrl + '/videos'
 
     console.log(body);
 
-    return this.http.post<Blob>(this.baseUrl, body, httpOptions).pipe(
-      catchError(this.handleError<Blob>())
+    return this.http.post<Result[]>(this.Url, body, httpOptions).pipe(
+      catchError(this.handleError<Result[]>('preditct', []))
+    );
+  }
+
+  predictHeatmap(body: FormData, mime: string): Observable<HttpResponse<Blob>> {
+
+    const httpOptions = {
+      params: new HttpParams()
+        .set('count',true)
+        .set('heatmap',true),
+      observe: 'response' as const,
+      responseType: 'blob' as 'json'
+    };
+
+    this.Url = this.baseUrl;
+
+    if (mime == 'image/jpeg'){
+      this.Url = this.Url + '/images'
+    }
+    else{
+      this.Url = this.Url + '/videos'
+    }
+
+    console.log(body);
+
+    return this.http.post<Blob>(this.Url, body, httpOptions).pipe(
+      catchError(this.handleError<HttpResponse<Blob>>())
     );
   }
 

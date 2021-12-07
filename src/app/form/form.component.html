@@ -1,4 +1,3 @@
-{{count | json}}
 <div [hidden]="submitted || predicted">
   <form [formGroup]="predictForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
@@ -35,6 +34,29 @@
   <div><span>image name: </span>{{result.img_name}}</div>
   <div><span>people count: </span>{{result.count}}</div>
   <div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Frame Column -->
+      <ng-container matColumnDef="video_frame">
+        <th mat-header-cell *matHeaderCellDef> Frame </th>
+        <td mat-cell *matCellDef="let element"> {{element.video_frame}} </td>
+      </ng-container>
+
+      <!-- Count Column -->
+      <ng-container matColumnDef="count">
+        <th mat-header-cell *matHeaderCellDef> Count </th>
+        <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <div>
     <mat-card class="image-card" [class.mat-elevation-z2]>
       <mat-card-header>
         <mat-card-title>Original Image</mat-card-title>
@@ -50,5 +72,60 @@
       </mat-card-header>
       <img mat-card-image src='{{result.image}}' alt = "predicted people heatmap">
     </mat-card>
+  </div>
+
+  <div>
+    <mat-card class="image-card" [class.mat-elevation-z2]>
+      <mat-card-header>
+        <mat-card-title>Original Image</mat-card-title>
+        <mat-card-subtitle>that you've submitted</mat-card-subtitle>
+      </mat-card-header>
+      <video width="320" height="240" autoplay>
+        <source src='{{originalImage}}' type="video/mp4">
+      </video>
+    </mat-card>
+
+    <mat-card class="heatmap-card" [class.mat-elevation-z2]>
+      <mat-card-header>
+        <mat-card-title>People heatmap</mat-card-title>
+        <mat-card-subtitle>predicted by our model</mat-card-subtitle>
+      </mat-card-header>
+      <vg-player>
+        <vg-overlay-play></vg-overlay-play>
+        <vg-buffering></vg-buffering>
+
+        <vg-scrub-bar>
+          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+        </vg-scrub-bar>
+
+        <vg-controls>
+          <vg-play-pause></vg-play-pause>
+          <vg-playback-button></vg-playback-button>
+
+          <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+          <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+
+          <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+          <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+          <vg-track-selector></vg-track-selector>
+          <vg-mute></vg-mute>
+          <vg-volume></vg-volume>
+
+          <vg-fullscreen></vg-fullscreen>
+        </vg-controls>
+
+        <video [vgMedia]="$any(media)" #media id="singleVideo" [src] = "imageToShow">
+        </video>
+      </vg-player>
+    </mat-card>
+
+
+
+
+
+
   </div>
 </div>

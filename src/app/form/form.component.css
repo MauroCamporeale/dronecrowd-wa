@@ -29,3 +29,7 @@ h2 {
 .example-header-image {
   background-size: cover;
 }
+
+table {
+  width: 40%;
+}
