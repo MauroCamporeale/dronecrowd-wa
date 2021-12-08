@@ -71,7 +71,7 @@ export class MockserviceService {
       this.Url = this.Url + '/videos'
     }
 
-    console.log(body);
+    console.log(Headers);
 
     return this.http.post<Blob>(this.Url, body, httpOptions).pipe(
       catchError(this.handleError<HttpResponse<Blob>>())

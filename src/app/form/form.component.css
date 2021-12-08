@@ -17,8 +17,8 @@ h2 {
 }
 
 .mat-card {
-  max-width: 400px;
-  float: left;
+  max-width: 1000px;
+  margin: auto;
 }
 
 .mat-card-title {
@@ -31,5 +31,21 @@ h2 {
 }
 
 table {
-  width: 40%;
+  margin: auto;
+  width: 100%;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+}
+
+.submit {
+  color:white;
+  background-color: #42A948;
+  border-color: black;
+}
+
+.predict {
+  color:#42A948;
 }

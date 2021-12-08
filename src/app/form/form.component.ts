@@ -1,12 +1,19 @@
+import { DataRowOutlet } from '@angular/cdk/table';
 import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { MessageService } from '../message.service';
 import { MockserviceService } from '../mockservice.service';
 import { Result } from '../result';
-import {saveAs } from 'file-saver'
+
+export interface DialogData {
+  file: string;
+  output: string;
+}
 
 @Component({
   selector: 'app-form',
@@ -15,20 +22,19 @@ import {saveAs } from 'file-saver'
 })
 export class FormComponent implements OnInit {
 
-  submitted = false;
   predicted = false;
   isLoading = false;
+  image = false;
+  video = false;
+  count = false;
+  heatmap = false;
+  fileName = "mockname";
+  output = 'both people count and heatmap';
   imageToShow: any;
   originalImage:any;
   mimeType= '';
 
   formData = new FormData();
-
-  predictForm = new FormGroup ({
-    output: new FormControl('', [Validators.required]),
-    file: new FormControl('', [Validators.required])
-  });
-
 
   outputs = ['only people count', 'only people heatmap',
             'both people count and heatmap'];
@@ -38,73 +44,103 @@ export class FormComponent implements OnInit {
 
   result: Result = {img_name:'', count:'0', image:'' }; //mock inizialization
 
-  constructor(private router: Router,private mockService: MockserviceService, private messageService: MessageService, private sanitizer: DomSanitizer) { }
+  constructor(private router: Router,private mockService: MockserviceService, private messageService: MessageService, private sanitizer: DomSanitizer, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-    this.submitted = true; }
+    this.openDialog();
+  }
 
-  apiRequest() {
-    this.predicted = true;
-    this.outputOptionSwitch();
+  openDialog() {
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      width: '400px',
+      data: {
+        file: this.fileName,
+        output: this.output,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.predicted = result;
+      this.apiRequest();
+    });
 
   }
 
+  public apiRequest() {
+    if (this.predicted){
+      this.outputOptionSwitch();
+    }
+  }
+
   outputOptionSwitch(){
-    if (this.predictForm.value.output == 'only people count'){
+    if (this.output == 'only people count'){
       if (this.mimeType == 'image/jpeg'){
+        this.image = true;
         this.imageCount();
       }
       else{
+        this.video = true;
         this.videoCount();
       }
     }
-    else if(this.predictForm.value.output == 'only people heatmap'){
+    else if(this.output == 'only people heatmap'){
+      if (this.mimeType == 'image/jpeg'){this.image = true;}
+      else{this.video = true;}
       this.isLoading = true;
       this.predictAll(false);
 
 
     }
     else {
+      if (this.mimeType == 'image/jpeg'){this.image = true;}
+      else{this.video = true;}
       this.isLoading = true;
       this.predictAll(true);
     }
   }
 
   imageCount() {
+    this.count = true;
     this.mockService.predictImageCount(this.formData)
         .subscribe(result => this.result = result);
   }
 
   videoCount() {
+    this.count = true;
     this.mockService.predictVideoCount(this.formData)
         .subscribe(results => this.dataSource = results)
   }
 
   predictAll(count: boolean) {
-    // if (this.mimeType == 'image/jpeg'){
-    //   this.mockService.predictImageCount(this.formData).subscribe(result => {
-    //     this.result.img_name = result.img_name;
-    //     if (count){
-    //       this.result.count = result.count;
-    //     }
-    //     else{
-    //       this.result.count = 'People count not Requested';
-    //     }
-    //   });
-    // }
-    // else{
-    //   if (count){
-    //     this.mockService.predictVideoCount(this.formData)
-    //       .subscribe(results => this.dataSource = results);
-    //   }
-    //   else{
-    //     this.result.count = 'People count not Requested';
-    //   }
+    this.count = count;
+    this.heatmap = true;
 
-    // }
+    if (this.mimeType == 'image/jpeg'){
+      this.image = true;
+      this.mockService.predictImageCount(this.formData).subscribe(result => {
+        this.result.img_name = result.img_name;
+        if (count){
+          this.result.count = result.count;
+        }
+        else{
+          this.result.count = 'People count not Requested';
+        }
+      });
+    }
+    else{
+      if (count){
+        this.mockService.predictVideoCount(this.formData)
+          .subscribe(results => this.dataSource = results);
+      }
+      else{
+        this.result.count = 'People count not Requested';
+      }
+
+    }
 
     this.mockService.predictHeatmap(this.formData, this.mimeType)
       .subscribe(
@@ -120,7 +156,7 @@ export class FormComponent implements OnInit {
           // this.imageToShow = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(data.body as File));
           // console.log(this.imageToShow);
 
-          // this.createImageFromBlob(data.body as Blob);
+          this.createImageFromBlob(data.body as Blob);
           this.isLoading = false;
         },
         error => {
@@ -134,6 +170,7 @@ export class FormComponent implements OnInit {
 
     if(e.target.files && e.target.files.length) {
       const file: File = e.target.files[0];
+      this.fileName = file.name;
 
       let reader = new FileReader();
       reader.addEventListener("load", () => {
@@ -157,12 +194,30 @@ export class FormComponent implements OnInit {
     reader.addEventListener("load", () => {
        this.imageToShow = reader.result;
        console.log(this.imageToShow);
-      //  this.result.image = this.imageToShow;
+       this.result.image = this.imageToShow;
     }, false);
 
     if (file) {
        reader.readAsDataURL(file);
     }
  }
+
+}
+
+@Component({
+  selector: 'confirm-dialog',
+  templateUrl: './confirm-dialog.html',
+  styleUrls: ['./form.component.css']
+})
+export class ConfirmDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) { }
+
+  onEditClick(): void {
+    this.dialogRef.close();
+  }
 
 }

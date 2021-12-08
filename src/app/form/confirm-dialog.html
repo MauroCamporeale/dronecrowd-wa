@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>You submitted the following:</h1>
+<div mat-dialog-content><ul>
+  <li>
+    <span></span> File: {{data.file}}
+  </li>
+  <li>
+    <span></span> Output option: {{data.output}}
+  </li>
+</ul></div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onEditClick()">Edit form</button>
+  <button mat-button class='predict' [mat-dialog-close]=true cdkFocusInitial>Predict</button>
+</div>
