@@ -17,6 +17,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { LayoutModule } from '@angular/cdk/layout';
 import {VgCoreModule} from '@videogular/ngx-videogular/core';
 import {VgControlsModule} from '@videogular/ngx-videogular/controls';
 import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
@@ -46,6 +52,12 @@ import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
     MatOptionModule,
     MatSelectModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatListModule,
+    LayoutModule,
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,

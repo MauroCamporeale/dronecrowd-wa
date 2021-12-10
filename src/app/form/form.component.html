@@ -33,7 +33,9 @@
 
 </div>
 
-<div class="center" [hidden]="!predicted" >
+
+
+<div [hidden]="!predicted" class="center">
 
   <mat-card class="prediction-card" [class.mat-elevation-z2]>
     <mat-card-header>
@@ -48,7 +50,14 @@
       <div [hidden]="!heatmap ">
         <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z0" >
           <mat-tab label="Original Image"> <img mat-card-image src='{{originalImage}}'> </mat-tab>
-          <mat-tab label="Predicted Heatmap"> <img mat-card-image src='{{result.image}}' alt = "predicted people heatmap"> </mat-tab>
+          <mat-tab label="Predicted Heatmap">
+            <span [hidden]="!isLoading">
+              <div style="width:550px;height:300px; display: flex; justify-content: center; align-items: center;">
+                <mat-spinner diameter=200></mat-spinner>
+              </div>
+            </span>
+            <span [hidden]="isLoading"><img mat-card-image src='{{result.image}}' alt = "predicted people heatmap"></span>
+          </mat-tab>
         </mat-tab-group>
       </div>
 
@@ -64,8 +73,11 @@
           <button mat-stroked-button><span class="mat-subheading-2">image name: </span><span class="mat-body-2">{{fileName}}</span></button>
         </div>
 
-        <div [hidden]="!count">
-          <button mat-stroked-button><span class="mat-subheading-2">people count: </span><span class="mat-body-2">{{result.count}}</span></button>
+        <div [hidden]="!count" class="flex">
+          <button mat-stroked-button class="flex">
+            <span class="mat-subheading-2" >people count: </span>
+            <span [hidden]="!isLoading"><mat-spinner diameter=20 matSuffix></mat-spinner></span>
+            <span [hidden]="isLoading" class="mat-body-2">{{result.count}}</span></button>
         </div>
 
       </mat-card-content>
@@ -80,7 +92,23 @@
         <button mat-stroked-button><span class="mat-subheading-2">video name: </span><span class="mat-body-2">{{fileName}}</span></button>
       </div>
 
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+      <div [hidden]="count">
+        <button mat-stroked-button>
+          <span class="mat-subheading-2">people count:</span>
+          <span [hidden]="!isLoading"><mat-spinner diameter=20 matSuffix></mat-spinner></span>
+          <span [hidden]="isLoading" class="mat-body-2"> People count not requested</span>
+        </button>
+      </div>
+
+      <div [hidden]="!heatmap">
+        <button mat-stroked-button>
+          <span class="mat-subheading-2">download heatmap video: </span>
+          <span [hidden]="!isLoading"><mat-spinner diameter=20 matSuffix></mat-spinner></span>
+          <span [hidden]="isLoading" class="mat-body-2"><a [href]="fileUrl" download="heatmap_video.mp4">Download</a></span>
+        </button>
+      </div>
+
+      <table mat-table [hidden]="!count" [dataSource]="dataSource" class="mat-elevation-z0">
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
@@ -101,8 +129,13 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
+      <span [hidden]="!count || !isLoading">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </span>
+
     </div>
 
   </mat-card>
 
 </div>
+

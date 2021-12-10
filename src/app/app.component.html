@@ -3,11 +3,53 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <mat-toolbar color="primary">
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+  <button mat-icon-button class="example-icon" *ngIf="sidenav.mode === 'over'" mat-button (click)="sidenav.toggle()" aria-label="Menù">
     <mat-icon>menu</mat-icon>
   </button>
   <span>Drone Crowd-counting</span>
   <span class="example-spacer"></span>
 </mat-toolbar>
-<app-form></app-form>
+<mat-sidenav-container style="width: 100%; height: 100%;">
+  <mat-sidenav #sidenav="matSidenav">
+
+    <div class="docs-component-viewer-nav ng-tns-c141-187">
+      <div class="docs-component-viewer-nav-content ng-tns-c141-187 ng-star-inserted">
+        <mat-nav-list role="navigation" class="mat-nav-list mat-list-base ng-tns-c141-187">
+          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" href="/components/autocomplete"><!--href="/components/autocomplete"-->
+            <div class="mat-list-item-content">
+              <div mat-ripple class="mat-ripple mat-list-item-ripple"></div>
+              <div class="mat-list-text"></div>
+              Input Form
+            </div>
+          </a>
+          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" href="/components/autocomplete">
+            <div class="mat-list-item-content">
+              <div mat-ripple class="mat-ripple mat-list-item-ripple"></div>
+              <div class="mat-list-text"></div>
+              Prediction Result
+            </div>
+          </a>
+          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" href="/components/autocomplete">
+            <div class="mat-list-item-content">
+              <div mat-ripple class="mat-ripple mat-list-item-ripple"></div>
+              <div class="mat-list-text"></div>
+              About Us
+            </div>
+          </a>
+        </mat-nav-list>
+      </div>
+    </div>
+
+
+
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+
+    <app-form></app-form>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
 

@@ -19,3 +19,55 @@ nav a:hover {
 nav a.active {
   background-color: black;
 }
+
+.mat-sidenav {
+  width: 20%;
+}
+
+.mat-list-text {
+  color: #000000a6;
+  flex-direction: column;
+  flex: auto;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-size: 16px;
+  padding: 0;
+}
+
+.mat-sidenav-button {
+  width: auto;
+  height: fit-content;
+  font-size: larger;
+
+}
+
+.mat-icon-large {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-ripple{
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.mat-ripple {
+  overflow: hidden;
+  position: relative;
+}
+
+.mat-nav-list .mat-list-item {
+  cursor: pointer;
+  outline: none;
+}
+
+.docs-component-viewer-nav-content .mat-list-item {
+  color: #000000a6;
+}
+

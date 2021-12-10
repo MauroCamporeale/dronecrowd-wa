@@ -1,7 +1,4 @@
-import { DataRowOutlet } from '@angular/cdk/table';
-import { HttpHeaders } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -33,6 +30,7 @@ export class FormComponent implements OnInit {
   imageToShow: any;
   originalImage:any;
   mimeType= '';
+  fileUrl;
 
   formData = new FormData();
 
@@ -77,6 +75,7 @@ export class FormComponent implements OnInit {
   }
 
   outputOptionSwitch(){
+    this.isLoading = true;
     if (this.output == 'only people count'){
       if (this.mimeType == 'image/jpeg'){
         this.image = true;
@@ -90,7 +89,6 @@ export class FormComponent implements OnInit {
     else if(this.output == 'only people heatmap'){
       if (this.mimeType == 'image/jpeg'){this.image = true;}
       else{this.video = true;}
-      this.isLoading = true;
       this.predictAll(false);
 
 
@@ -98,7 +96,6 @@ export class FormComponent implements OnInit {
     else {
       if (this.mimeType == 'image/jpeg'){this.image = true;}
       else{this.video = true;}
-      this.isLoading = true;
       this.predictAll(true);
     }
   }
@@ -106,58 +103,70 @@ export class FormComponent implements OnInit {
   imageCount() {
     this.count = true;
     this.mockService.predictImageCount(this.formData)
-        .subscribe(result => this.result = result);
+        .subscribe(result => {
+          this.result = result;
+          this.isLoading = false;
+        });
   }
 
   videoCount() {
     this.count = true;
     this.mockService.predictVideoCount(this.formData)
-        .subscribe(results => this.dataSource = results)
+        .subscribe(results => {
+          this.dataSource = results;
+          this.isLoading = false;
+        });
   }
 
   predictAll(count: boolean) {
     this.count = count;
     this.heatmap = true;
 
-    if (this.mimeType == 'image/jpeg'){
-      this.image = true;
-      this.mockService.predictImageCount(this.formData).subscribe(result => {
-        this.result.img_name = result.img_name;
-        if (count){
-          this.result.count = result.count;
-        }
-        else{
-          this.result.count = 'People count not Requested';
-        }
-      });
-    }
-    else{
-      if (count){
-        this.mockService.predictVideoCount(this.formData)
-          .subscribe(results => this.dataSource = results);
-      }
-      else{
-        this.result.count = 'People count not Requested';
-      }
-
-    }
-
     this.mockService.predictHeatmap(this.formData, this.mimeType)
       .subscribe(
         data => {
-          console.log(data.headers);
-          console.log(data.headers.keys());
-          const keys = data.headers.keys();
-          keys.map(key =>
-            console.log(data.headers.get(key)));
-          console.log(data.body);
-          // this.imageToShow= 'assets/whiterabbit-video5.mp4';
-
-          // this.imageToShow = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(data.body as File));
-          // console.log(this.imageToShow);
-
-          this.createImageFromBlob(data.body as Blob);
           this.isLoading = false;
+
+          if (this.mimeType == 'image/jpeg'){
+            this.image = true;
+
+            this.createImageFromBlob(data.body as Blob);
+
+            if (count){
+              this.result.count = data.headers.get('count') as string
+            }
+            else{
+              this.result.count = 'People count not Requested';
+            }
+          }
+          else{
+
+            this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+              window.URL.createObjectURL(data.body)
+            );
+
+            if (count){
+
+              let results: Result[] = []
+
+              for (let index = 0; index < Number(data.headers.get("n_frames")); index++) {
+
+                results.push({
+                  count: String(index),
+                  video_frame: data.headers.get(String(index)) as string
+                });
+
+              }
+
+              this.dataSource = results;
+
+            }
+            else{
+              this.result.count = 'People count not Requested';
+            }
+
+          }
+
         },
         error => {
           this.isLoading = false;
@@ -193,7 +202,6 @@ export class FormComponent implements OnInit {
     let reader = new FileReader();
     reader.addEventListener("load", () => {
        this.imageToShow = reader.result;
-       console.log(this.imageToShow);
        this.result.image = this.imageToShow;
     }, false);
 

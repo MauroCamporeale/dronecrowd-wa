@@ -49,3 +49,14 @@ table {
 .predict {
   color:#42A948;
 }
+
+.flex {
+  display: flex;
+}
+
+.mat-spinner {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
