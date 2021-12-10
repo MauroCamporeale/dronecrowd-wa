@@ -15,21 +15,21 @@
     <div class="docs-component-viewer-nav ng-tns-c141-187">
       <div class="docs-component-viewer-nav-content ng-tns-c141-187 ng-star-inserted">
         <mat-nav-list role="navigation" class="mat-nav-list mat-list-base ng-tns-c141-187">
-          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" href="/components/autocomplete"><!--href="/components/autocomplete"-->
+          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" (click)="backToForm()">
             <div class="mat-list-item-content">
               <div mat-ripple class="mat-ripple mat-list-item-ripple"></div>
               <div class="mat-list-text"></div>
               Input Form
             </div>
           </a>
-          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" href="/components/autocomplete">
+          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" (click)="backToResult()">
             <div class="mat-list-item-content">
               <div mat-ripple class="mat-ripple mat-list-item-ripple"></div>
               <div class="mat-list-text"></div>
               Prediction Result
             </div>
           </a>
-          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" href="/components/autocomplete">
+          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false">
             <div class="mat-list-item-content">
               <div mat-ripple class="mat-ripple mat-list-item-ripple"></div>
               <div class="mat-list-text"></div>
@@ -46,7 +46,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
 
-    <app-form></app-form>
+    <app-result></app-result>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

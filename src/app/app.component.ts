@@ -2,6 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { ResultComponent } from './result/result.component';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 export class AppComponent{
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
+  @ViewChild(ResultComponent) resultComp;
   title = 'dronecrowd-wa';
 
 
@@ -28,6 +30,16 @@ export class AppComponent{
         this.sidenav.open();
       }
     });
+  }
+
+  backToForm(){
+    this.resultComp.predicted= false;
+    this.resultComp.form.predicted = false;
+  }
+
+  backToResult(){
+    this.resultComp.predicted= true;
+    this.resultComp.form.predicted = true;
   }
 
 }

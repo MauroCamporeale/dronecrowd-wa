@@ -1,0 +1,43 @@
+.mat-card {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.mat-card-title {
+  font-size: large;
+  font-weight: bold;
+}
+
+.example-header-image {
+  background-size: cover;
+}
+
+table {
+  margin: auto;
+  width: 100%;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+}
+
+.submit {
+  color:white;
+  background-color: #42A948;
+  border-color: black;
+}
+
+.predict {
+  color:#42A948;
+}
+
+.flex {
+  display: flex;
+}
+
+.mat-spinner {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}

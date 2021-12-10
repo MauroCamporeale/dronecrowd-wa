@@ -22,18 +22,21 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LayoutModule } from '@angular/cdk/layout';
 import {VgCoreModule} from '@videogular/ngx-videogular/core';
 import {VgControlsModule} from '@videogular/ngx-videogular/controls';
 import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
 import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
+import { ResultComponent } from './result/result.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MessagesComponent,
     FormComponent,
-    ConfirmDialog
+    ConfirmDialog,
+    ResultComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +60,7 @@ import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
     MatMenuModule,
     MatSidenavModule,
     MatListModule,
+    MatButtonToggleModule,
     LayoutModule,
     VgCoreModule,
     VgControlsModule,
