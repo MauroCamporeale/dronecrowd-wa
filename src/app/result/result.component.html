@@ -1,3 +1,5 @@
+<app-form (parentFun)="passData()"></app-form>
+
 <div [hidden]="!predicted" class="center">
 
   <mat-card class="prediction-card" [class.mat-elevation-z2]>
@@ -52,7 +54,7 @@
 
         <div [hidden]="video || !count" class="flex">
           <button mat-stroked-button class="flex">
-            <span class="mat-subheading-2" >people gay: </span>
+            <span class="mat-subheading-2" >people count: </span>
             <span [hidden]="!isLoading"><mat-spinner diameter=20 matSuffix></mat-spinner></span>
             <span [hidden]="isLoading" class="mat-body-2">{{result.count}}</span></button>
         </div>
