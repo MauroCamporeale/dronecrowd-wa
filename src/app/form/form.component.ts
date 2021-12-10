@@ -142,7 +142,7 @@ export class FormComponent implements OnInit {
           else{
 
             this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-              window.URL.createObjectURL(data.body)
+              window.URL.createObjectURL(data.body as Blob)
             );
 
             if (count){
@@ -192,7 +192,7 @@ export class FormComponent implements OnInit {
 
       this.mimeType= file.type;
 
-      this.originalImage = file;
+      // this.originalImage = file;
       this.formData.append("file",file);
     }
   }
