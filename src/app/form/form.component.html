@@ -13,7 +13,10 @@
 
       <form (ngSubmit)="onSubmit()">
 
-        <input class="form-control" type="file" (change)="onImageChange($event)">
+        <label for="file-upload" class="custom-file-upload">
+          Custom Upload
+        </label>
+        <input id="file-upload" class="form-control" type="file" (change)="onImageChange($event)">
 
         <mat-button-toggle-group [(value)]="output" aria-label="Output type" class="mat-button-toggle-group mat-button-toggle-group-appearance-standard">
           <mat-button-toggle *ngFor="let out of outputs" [value]='out' class="mat-button-toggle mat-button-toggle-appearance-standard">{{out}}</mat-button-toggle>
