@@ -65,8 +65,6 @@ export class FormComponent implements OnInit {
     }
   }
 
-
-
   onImageChange(e) {
     const reader = new FileReader();
 
