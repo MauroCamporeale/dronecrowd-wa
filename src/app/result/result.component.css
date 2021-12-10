@@ -41,3 +41,18 @@ table {
   align-items: center;
   vertical-align: middle;
 }
+
+.video-center{
+  margin: auto;
+  display: block;
+  width: 95%;
+}
+
+.video-loader{
+  width: 100%;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

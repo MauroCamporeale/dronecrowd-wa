@@ -28,14 +28,19 @@
 
       <div [hidden]="!heatmap || image">
         <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z0" >
-          <mat-tab label="Original Video"> <video src='{{originalImage}}' controls></video> </mat-tab>
+          <mat-tab label="Original Video"> <video class="video-center" src='{{originalImage}}' controls></video> </mat-tab>
           <mat-tab label="Predicted Heatmap">
-            <span [hidden]="!isLoading">
-              <div style="width:550px;height:300px; display: flex; justify-content: center; align-items: center;">
-                <mat-spinner diameter=200></mat-spinner>
+            <div [hidden]="!isLoading">
+              <div class="video-loader">
+                <div class="inner-video-loader">
+                  <p class="mat-subheading-2">the heatmap is being generated: </p>
+                  <p>
+                    <mat-progress-bar mode="indeterminate" width=50%></mat-progress-bar>
+                  </p>
+                </div>
               </div>
-            </span>
-            <span [hidden]="isLoading"><video src='{{fileUrl}}' controls></video></span>
+            </div>
+            <span [hidden]="isLoading"><video class="video-center" [src]="fileUrl" controls></video></span>
           </mat-tab>
         </mat-tab-group>
       </div>
@@ -52,7 +57,7 @@
           <button mat-stroked-button><span class="mat-subheading-2">file name: </span><span class="mat-body-2">{{fileName}}</span></button>
         </div>
 
-        <div [hidden]="video || !count" class="flex">
+        <div [hidden]="video || !count"><!--"video || !count"-->
           <button mat-stroked-button class="flex">
             <span class="mat-subheading-2" >people count: </span>
             <span [hidden]="!isLoading"><mat-spinner diameter=20 matSuffix></mat-spinner></span>
@@ -61,8 +66,9 @@
 
         <div [hidden]="!heatmap">
           <button mat-raised-button [disabled]="isLoading" class='primary'>
-            <span [hidden]="!isLoading" class="mat-body-2">Download</span>
-            <span [hidden]="isLoading" class="mat-body-2"><a [href]="fileUrl" download="heatmap_video.mp4">Download</a></span>
+            <span [hidden]="!isLoading" class="mat-body-2">Download heatmap</span>
+            <span [hidden]="isLoading || image" class="mat-body-2"><a [href]="fileUrl" download="heatmap_video.mp4">Download heatmap</a></span>
+            <span [hidden]="isLoading || video" class="mat-body-2"><a [href]="imageToShow" download="heatmap_image.png">Download heatmap</a></span>
           </button>
         </div>
 

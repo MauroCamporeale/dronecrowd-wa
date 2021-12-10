@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormComponent } from '../form/form.component';
 import { MockserviceService } from '../mockservice.service';
 import { Result } from '../result';
@@ -128,9 +128,7 @@ export class ResultComponent implements OnInit {
           }
           else{
 
-            this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-              window.URL.createObjectURL(data.body as Blob)
-            );
+            this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(data.body as Blob));
 
             if (count){
 
