@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -30,6 +31,7 @@ import {VgControlsModule} from '@videogular/ngx-videogular/controls';
 import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
 import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
 import { ResultComponent } from './result/result.component';
+import { AboutusComponent } from './aboutus/aboutus.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { ResultComponent } from './result/result.component';
     MessagesComponent,
     FormComponent,
     ConfirmDialog,
-    ResultComponent
+    ResultComponent,
+    AboutusComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +62,7 @@ import { ResultComponent } from './result/result.component';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatMenuModule,
+    MatGridListModule,
     MatSidenavModule,
     MatListModule,
     MatButtonToggleModule,
