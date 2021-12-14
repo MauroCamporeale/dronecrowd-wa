@@ -14,7 +14,12 @@
       <form (ngSubmit)="onSubmit()">
 
         <label for="file-upload" class="custom-file-upload">
-          Custom Upload
+          <button mat-mini-fab aria-label="Upload file">
+            <mat-icon>cloud_upload</mat-icon>
+          </button>
+          <mat-form-field appearance="standard" style="margin-left: 1%;">
+            <input matInput placeholder="Upload a file">
+          </mat-form-field>
         </label>
         <input id="file-upload" class="form-control" type="file" (change)="onImageChange($event)">
 

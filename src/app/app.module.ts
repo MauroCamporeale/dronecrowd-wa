@@ -23,6 +23,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatInputModule } from '@angular/material/input';
 import { LayoutModule } from '@angular/cdk/layout';
 import {VgCoreModule} from '@videogular/ngx-videogular/core';
 import {VgControlsModule} from '@videogular/ngx-videogular/controls';
@@ -61,6 +62,7 @@ import { ResultComponent } from './result/result.component';
     MatSidenavModule,
     MatListModule,
     MatButtonToggleModule,
+    MatInputModule,
     LayoutModule,
     VgCoreModule,
     VgControlsModule,
