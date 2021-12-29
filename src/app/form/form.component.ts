@@ -22,7 +22,7 @@ export class FormComponent implements OnInit {
   originalImage: any;
 
 
-  fileName = "mockname";
+  fileName = "Upload a file";
   output = 'both people count and heatmap';
   mimeType= '';
 

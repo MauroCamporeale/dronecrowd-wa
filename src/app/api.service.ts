@@ -8,14 +8,33 @@ import { catchError, map, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class MockserviceService {
+export class ApiserviceService {
 
-  private baseUrl = 'http://localhost:8000/predictions';
+  private baseUrl = 'http://drone-crowdcounting.com/predictions';
+  private gitUrl = ' https://api.github.com/users/'
   private Url;
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }
+
+  getUser(user: string): Observable<JSON> {
+
+    this.Url = this.gitUrl + user
+
+    return this.http.get<JSON>(this.Url).pipe(
+      catchError(this.handleError<JSON>())
+    );
+  }
+
+  getUserRepos(user: string): Observable<JSON[]> {
+
+    this.Url = this.gitUrl + user + '/repos'
+
+    return this.http.get<JSON[]>(this.Url).pipe(
+      catchError(this.handleError<JSON[]>())
+    );
+  }
 
   predictImageCount(body: FormData): Observable<Result> {
 
@@ -31,7 +50,7 @@ export class MockserviceService {
 
     return this.http.post<Result>(this.Url, body, httpOptions).pipe(
       tap((result: Result) => this.log(`submitted for prediction image=${result.img_name}`)),
-      catchError(this.handleError<Result>('preditct', {img_name: 'fake_image', count: '49', image:''}))
+      catchError(this.handleError<Result>('preditctImageCount', {img_name: 'fake_image', count: '49', image:''}))
     );
   }
 
@@ -48,7 +67,7 @@ export class MockserviceService {
     console.log(body);
 
     return this.http.post<Result[]>(this.Url, body, httpOptions).pipe(
-      catchError(this.handleError<Result[]>('preditct', []))
+      catchError(this.handleError<Result[]>('preditctVideoCount', []))
     );
   }
 

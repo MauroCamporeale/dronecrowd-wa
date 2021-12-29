@@ -41,6 +41,7 @@ table {
 }
 
 .submit {
+  margin-top: 2%;
   color:white;
   background-color: #42A948;
   border-color: black;
@@ -64,3 +65,17 @@ table {
   display: block;
   cursor: pointer;
 }
+
+.static {
+  pointer-events: none;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.mat-success {
+  background-color:royalblue;
+  color: #fff;
+}
+

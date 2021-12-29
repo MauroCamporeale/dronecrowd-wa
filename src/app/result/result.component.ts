@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormComponent } from '../form/form.component';
-import { MockserviceService } from '../mockservice.service';
+import { ApiserviceService } from '../api.service';
 import { Result } from '../result';
 
 @Component({
@@ -32,7 +32,7 @@ export class ResultComponent implements OnInit {
   displayedColumns: string[] = ['video_frame', 'count'];
   result: Result = {img_name:'', count:'0', image:'' }; //mock inizialization
 
-  constructor(private mockService: MockserviceService, private sanitizer: DomSanitizer) { }
+  constructor(private apiService: ApiserviceService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
   }
@@ -89,7 +89,7 @@ export class ResultComponent implements OnInit {
 
   imageCount() {
     this.count = true;
-    this.mockService.predictImageCount(this.formData)
+    this.apiService.predictImageCount(this.formData)
         .subscribe(result => {
           this.result = result;
           this.isLoading = false;
@@ -98,7 +98,7 @@ export class ResultComponent implements OnInit {
 
   videoCount() {
     this.count = true;
-    this.mockService.predictVideoCount(this.formData)
+    this.apiService.predictVideoCount(this.formData)
         .subscribe(results => {
           this.dataSource = results;
           this.isLoading = false;
@@ -109,7 +109,7 @@ export class ResultComponent implements OnInit {
     this.count = count;
     this.heatmap = true;
 
-    this.mockService.predictHeatmap(this.formData, this.mimeType)
+    this.apiService.predictHeatmap(this.formData, this.mimeType)
       .subscribe(
         data => {
           this.isLoading = false;

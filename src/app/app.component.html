@@ -16,21 +16,21 @@
     <div class="docs-component-viewer-nav ng-tns-c141-187">
       <div class="docs-component-viewer-nav-content ng-tns-c141-187 ng-star-inserted">
         <mat-nav-list role="navigation" class="mat-nav-list mat-list-base ng-tns-c141-187">
-          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" routerLink="/form" (click)="backToForm()">
+          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" (click)="backToForm()">
             <div class="mat-list-item-content">
               <div mat-ripple class="mat-ripple mat-list-item-ripple"></div>
               <div class="mat-list-text"></div>
               Input Form
             </div>
           </a>
-          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" routerLink="/result" (click)="backToResult()">
+          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false"  (click)="backToResult()">
             <div class="mat-list-item-content">
               <div mat-ripple class="mat-ripple mat-list-item-ripple"></div>
               <div class="mat-list-text"></div>
               Prediction Result
             </div>
           </a>
-          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" routerLink="/aboutus">
+          <a mat-list-item routerlinkactive="docs-component-viewer-sidenav-item-selected" class="mat-list-item mat-focus-indicator ng-tns-c141-187 ng-star-inserted" aria-current="false" (click)="backToAboutUs()">
             <div class="mat-list-item-content">
               <div mat-ripple class="mat-ripple mat-list-item-ripple"></div>
               <div class="mat-list-text"></div>
@@ -45,8 +45,8 @@
   </mat-sidenav>
   <mat-sidenav-content>
 
-    <router-outlet></router-outlet>
-    <app-result></app-result>
+    <app-result [hidden]="aboutUs"></app-result>
+    <app-aboutus [hidden]="!aboutUs"></app-aboutus>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

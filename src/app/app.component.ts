@@ -15,6 +15,8 @@ export class AppComponent{
   @ViewChild(ResultComponent) resultComp;
   title = 'dronecrowd-wa';
 
+  aboutUs = false;
+
 
   constructor(private observer: BreakpointObserver) {}
 
@@ -35,11 +37,17 @@ export class AppComponent{
   backToForm(){
     this.resultComp.predicted= false;
     this.resultComp.form.predicted = false;
+    this.aboutUs = false;
   }
 
   backToResult(){
     this.resultComp.predicted= true;
     this.resultComp.form.predicted = true;
+    this.aboutUs = false;
+  }
+
+  backToAboutUs(){
+    this.aboutUs = true;
   }
 
 }

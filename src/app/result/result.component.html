@@ -17,8 +17,13 @@
           <mat-tab label="Original Image"> <img mat-card-image src='{{originalImage}}'> </mat-tab>
           <mat-tab label="Predicted Heatmap">
             <span [hidden]="!isLoading">
-              <div style="width:550px;height:300px; display: flex; justify-content: center; align-items: center;">
-                <mat-spinner diameter=200></mat-spinner>
+              <div class="video-loader">
+                <div class="inner-video-loader">
+                  <p class="mat-subheading-2">the heatmap is being generated: </p>
+                  <p>
+                    <mat-progress-bar mode="indeterminate" width=50%></mat-progress-bar>
+                  </p>
+                </div>
               </div>
             </span>
             <span [hidden]="isLoading"><img mat-card-image src='{{result.image}}' alt = "predicted people heatmap"></span>

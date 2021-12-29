@@ -1,15 +1,43 @@
 <mat-grid-list cols="2" rowHeight="2:1">
     <mat-grid-tile *ngFor="let author of authors">
-      <mat-card class="example-card">
+      <mat-card class="aboutus-card">
         <mat-card-header>
-          <div mat-card-avatar src=author.imageUrl></div>
+          <div mat-card-avatar class="example-header-image">
+            <img mat-card-avatar src='https://github.com/{{author.gitName}}.png'>
+          </div>
           <mat-card-title>{{author.name}}</mat-card-title>
-          <mat-card-subtitle>CS student</mat-card-subtitle>
+          <mat-card-subtitle>{{author.info}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          {{author.info}}
+          <div>
+            <button mat-stroked-button class="flex">
+              <span class="mat-subheading-2" >Git profile: </span>
+              <span class="mat-body-2">{{author.gitLink}}</span></button>
+          </div>
+          <div>
+            <button mat-stroked-button class="flex">
+              <span class="mat-subheading-2" >Followers: </span>
+              <span class="mat-body-2">{{author.followers}}</span></button>
+          </div>
+          <!-- <div> -->
+            <!-- <button mat-stroked-button class="flex"> -->
+              <!-- <mat-list>
+                <div class="mat-subheading-2">Public Repos:</div>
+                <mat-list-item *ngFor="let repo of author.repos">
+                  <mat-icon mat-list-icon>folder</mat-icon>
+                  <div mat-line> {{repo.name}}</div>
+                  <div mat-line> {{repo.git_url}} </div>
+                </mat-list-item>
+              </mat-list> -->
+              <!-- <span class="mat-subheading-2" >Public Repos: </span>
+              <span>
+                <div *ngFor="let repo of author.repos">
+                  <a [href] = "repo.git_url"> {{repo.name}} </a>
+                </div>
+              </span> -->
+            <!-- </button> -->
+          <!-- </div> -->
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
-  

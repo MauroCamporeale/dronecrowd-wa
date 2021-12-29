@@ -5,10 +5,7 @@ import { FormComponent } from './form/form.component';
 import { ResultComponent } from './result/result.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/form', pathMatch: 'full' },
-  { path: 'form', component: FormComponent},
-  { path: 'result', component: ResultComponent},
-  { path: 'aboutus', component: AboutusComponent}
+  
 ];
 
 @NgModule({
