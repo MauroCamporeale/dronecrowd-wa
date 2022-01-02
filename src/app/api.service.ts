@@ -10,7 +10,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 export class ApiserviceService {
 
-  private baseUrl = 'http://drone-crowdcounting.com/predictions';
+  private baseUrl = 'http://api.drone-crowdcounting.com/predictions';
   private gitUrl = ' https://api.github.com/users/'
   private Url;
 
