@@ -38,6 +38,7 @@ export class AppComponent{
     this.resultComp.predicted= false;
     this.resultComp.form.predicted = false;
     this.aboutUs = false;
+    this.reload();
   }
 
   backToResult(){
@@ -48,6 +49,10 @@ export class AppComponent{
 
   backToAboutUs(){
     this.aboutUs = true;
+  }
+
+  reload(){
+    window.location.reload();
   }
 
 }

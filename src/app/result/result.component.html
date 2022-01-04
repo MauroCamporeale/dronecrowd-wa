@@ -50,9 +50,15 @@
         </mat-tab-group>
       </div>
 
-      <div [hidden]="heatmap">
+      <div [hidden]="heatmap || video">
         <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z0" >
           <mat-tab label="Original Image"> <img mat-card-image src='{{originalImage}}'> </mat-tab>
+        </mat-tab-group>
+      </div>
+
+      <div [hidden]="heatmap || image">
+        <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z0" >
+          <mat-tab label="Original Video"> <video class="video-center" src='{{originalImage}}' controls></video> </mat-tab>
         </mat-tab-group>
       </div>
 
