@@ -137,8 +137,8 @@ export class ResultComponent implements OnInit {
               for (let index = 0; index < Number(data.headers.get("n_frames")); index++) {
 
                 results.push({
-                  count: String(index),
-                  video_frame: data.headers.get(String(index)) as string
+                  video_frame: String(index),
+                  count: data.headers.get(String(index)) as string
                 });
 
               }
